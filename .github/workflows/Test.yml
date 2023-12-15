@@ -6,19 +6,17 @@ on:
       - '**/*'
 
 jobs:
-
   process-file:
     runs-on: macos-latest
 
     steps:
-
     - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Read and Process File
       run: |
         # Replace 'path/to/your/file.txt' with the actual path to your file
-        file_contents=$(cat path/to/your/file.txt)
+        file_contents=$(cat Message.txt)
         processed_content="Processed content: $file_contents"
         echo "::set-output name=processed_content::$processed_content"
       id: process-file
