@@ -29,7 +29,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const processedContent = process.env.INPUT_PROCESSED_CONTENT;
-            const context = github.context;
             github.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
