@@ -11,7 +11,12 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+        
+    - name: Get changes
+      run: git diff --name-only -r HEAD^1 HEAD
 
     - name: Read and Process File
       run: |
