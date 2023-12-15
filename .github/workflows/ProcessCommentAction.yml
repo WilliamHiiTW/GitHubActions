@@ -20,7 +20,7 @@ jobs:
         file_path="Message.txt"
         # Check if the file has been modified
         if git diff --name-only -r HEAD^1 HEAD | grep -q "^Message.txt$"; then
-          file_contents=$(cat "$file_path")
+          file_contents=$(< "$file_path")
           processed_content="Processed content: $file_contents"
           echo "::set-output name=processed_content::$processed_content"
         else
