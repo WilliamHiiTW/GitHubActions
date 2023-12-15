@@ -16,8 +16,8 @@ jobs:
       - name: Read and Process File
         run: |
           file_contents=$(cat "Testing.txt")
-          process_content = "Processes content: $file_contents"
-          echo "::set-output name = processed_content::$processed_content"
+          processed_content="Processed content: $file_contents"
+          echo "::set-output name=processed_content::$processed_content"
         id: process-file
 
       - name: Comment on Pull Request
