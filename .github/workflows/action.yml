@@ -1,4 +1,4 @@
-name: William_Action
+name: William_Action_Test
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   process-file:
-    runs-on: ${{ runner.os == 'Windows' ? 'windows-latest' : 'macos-latest'}}
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
