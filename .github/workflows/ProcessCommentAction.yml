@@ -21,11 +21,17 @@ jobs:
         echo "::set-output name=processed_content::$processed_content"
       id: process-file
 
+    - name: Use Processed Content
+      run: |
+          # Access the processed_content from the previous step
+          processedContent="${{ steps.process-file.outputs.processed_content }}"
+          echo "Processed Content: $processedContent"
+
     - name: Comment on PR
       uses: actions/github-script@v7
       with:
         script: |
-          const processedContent = process.env.INPUT_PROCESSED_CONTENT;
+          const processedContent = "${{ steps.process-file.outputs.processed_content }}";
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
