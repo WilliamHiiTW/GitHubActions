@@ -15,13 +15,19 @@ jobs:
 
     - name: Read and Process File
       run: |
-        # Replace 'path/to/your/file.txt' with the actual path to your file
-        file_contents=$(cat "Message.txt")
-        processed_content="Processed content: $file_contents"
-        echo "::set-output name=processed_content::$processed_content"
+        file_path="Message.txt"
+        # Check if the file has been modified
+        if git diff --exit-code "$file_path" &>/dev/null; then
+          echo "File $file_path has not been modified. Skipping processing."
+        else
+          file_contents=$(cat "$file_path")
+          processed_content="Processed content: $file_contents"
+          echo "::set-output name=processed_content::$processed_content"
+        fi
       id: process-file
 
     - name: Comment on PR
+      if: steps.process-file.outputs.processed_content != ''
       uses: actions/github-script@v7
       with:
         script: |
