@@ -6,29 +6,26 @@ on:
       - '**/*'
 
 jobs:
-
   process-file:
-    runs-on: macos-latest
+    runs-on: windows-latest
 
     steps:
-
     - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Read and Process File
       run: |
         # Replace 'path/to/your/file.txt' with the actual path to your file
-        file_contents=$(cat path/to/your/file.txt)
-        processed_content="Processed content: $file_contents"
-        echo "::set-output name=processed_content::$processed_content"
-      id: process-file
+        file_content=$(cat "${{ github.workspace }}Message.txt")
+        # Add your custom processing logic here
+        processed_content="Processed content: $file_content"
 
     - name: Comment on PR
       uses: actions/github-script@v5
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const processedContent = process.env.INPUT_PROCESSED_CONTENT;
+          const processedContent = context.inputs.processed_content;
           const context = github.context;
           github.issues.createComment({
             owner: context.repo.owner,
