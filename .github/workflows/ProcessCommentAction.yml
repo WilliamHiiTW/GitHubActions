@@ -26,6 +26,14 @@ jobs:
         fi
       id: process-file
 
+    - name: Check if file modified
+      run: |
+        if [[ ${changes[@]} =~ "Message.txt" ]]; then
+          echo "File modified!"
+        else
+          echo "File not modified."
+        fi
+
     - name: Comment on PR
       if: steps.process-file.outputs.processed_content != ''
       uses: actions/github-script@v7
