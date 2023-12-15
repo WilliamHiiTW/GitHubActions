@@ -26,10 +26,9 @@ jobs:
       with:
         script: |
           const processedContent = process.env.INPUT_PROCESSED_CONTENT;
-          const context = github.context;
-          github.issues.createComment({
+          github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             body: processedContent
-          });
+          })
