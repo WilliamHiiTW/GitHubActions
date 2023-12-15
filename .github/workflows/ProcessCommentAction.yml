@@ -25,9 +25,10 @@ jobs:
       uses: actions/github-script@v7
       with:
         script: |
+          const processedContent = steps.process-file.outputs.processed_content;
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: file_contents
+            body: processedContent
           })
