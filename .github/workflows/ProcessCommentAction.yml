@@ -38,7 +38,6 @@ jobs:
       with:
         script: |
           const readContent = `${{ steps.read_file.outputs.contents }}`;
-          console.log("Read content:", readContent);
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
