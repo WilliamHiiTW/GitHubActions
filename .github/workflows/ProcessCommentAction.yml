@@ -34,10 +34,9 @@ jobs:
       with:
         script: |
           const processedContent = "${{ steps.process-file.outputs.processed_content }}";
-          echo "::set-output name=process::$processedContent"
+          console.log("Processed Content:", processedContent);
           const formattedContent = processedContent.replace(/(\r\n|\r|\n)/g, '%0A');
-          echo "::set-output name=format::$formattedContent"
-          echo "proce::set-output name=process::$processedContent"
+          console.log("Formatted Content:", formattedContent);
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
