@@ -29,22 +29,6 @@ jobs:
         fi
       id: process-file
 
-    - name: Comment on PR
-      if: steps.process-file.outputs.processed_content != ''
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const processedContent = "${{ steps.process-file.outputs.processed_content }}";
-          console.log("Processed Content:", processedContent);
-          const formattedContent = processedContent.replace(/(\r\n|\r|\n)/g, '%0A');
-          console.log("Formatted Content:", formattedContent);
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: formattedContent
-          })
-
     - name: Read file contents
       id: read_file
       uses: andstor/file-reader-action@v1
@@ -55,16 +39,18 @@ jobs:
       run: |
         echo "${{ steps.read_file.outputs.contents }}"
 
-    - name: Comment on PR2
-      if: steps.read_file.outputs.contents != ''
+    - name: Comment on PR
+      if: steps.process-file.outputs.processed_content != ''
       uses: actions/github-script@v7
       with:
         script: |
-          const contentRead = "${{ steps.read_file.outputs.contents }}";
-          console.log("Read Content:", contentRead);
+          const processedContent = "${{ steps.process-file.outputs.processed_content }}";
+          console.log("Processed Content:", processedContent);
+          const readContent = "${{ steps.read_file.outputs.contents }}";
+          console.log(" Read content: ", readContent)
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: contentRead
+            body: readContent
           })
