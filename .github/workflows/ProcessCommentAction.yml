@@ -31,7 +31,6 @@ jobs:
           echo "::set-output name=processed_content::$processed_content"
           echo "::set-output name=boolVariable::true"
         else
-          echo "File $file_path has not been modified. Skipping processing."
           echo "::set-output name=boolVariable::false"
         fi
       id: process-file
