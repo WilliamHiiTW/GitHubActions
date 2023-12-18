@@ -58,4 +58,4 @@ jobs:
 
     - name: File contents
       run: |
-        echo "${ steps.read_file.outputs.contents }"
+        echo "${{ steps.read_file.outputs.contents }}"
