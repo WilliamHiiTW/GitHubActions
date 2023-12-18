@@ -1,3 +1,1 @@
-and another one check 1
-test pp
-checky
+Testing if action file work
