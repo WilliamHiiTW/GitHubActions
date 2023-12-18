@@ -15,7 +15,13 @@ jobs:
       with:
         fetch-depth: 2
 
-    - name: Read and Process File
+    - name: Read file contents
+      id: read_file
+      uses: andstor/file-reader-action@v1
+      with:
+        path: "Message.txt"
+
+    - name: Process File
       run: |
         file_path="Message.txt"
         # Check if the file has been modified
@@ -33,10 +39,11 @@ jobs:
       uses: actions/github-script@v7
       with:
         script: |
-          const processedContent = "${{ steps.process-file.outputs.processed_content }}";
+          const readContent = `${{ steps.read_file.outputs.contents }}`;
+          console.log("Read content:", readContent);
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: processedContent
+            body: readContent
           })
