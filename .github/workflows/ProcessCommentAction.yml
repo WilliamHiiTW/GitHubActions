@@ -29,13 +29,15 @@ jobs:
           file_contents=$(< "$file_path")
           processed_content="Processed content: $file_contents"
           echo "::set-output name=processed_content::$processed_content"
+          echo "::set-output name=boolVariable::true"
         else
           echo "File $file_path has not been modified. Skipping processing."
+          echo "::set-output name=boolVariable::false"
         fi
       id: process-file
 
     - name: Comment on PR
-      if: steps.process-file.outputs.processed_content != ''
+      if: steps.process-file.outputs.boolVariable
       uses: actions/github-script@v7
       with:
         script: |
