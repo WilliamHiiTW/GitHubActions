@@ -44,6 +44,11 @@ jobs:
             repo: context.repo.repo,
             body: formattedContent
           })
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
 
     - name: Read file contents
       id: read_file
@@ -55,3 +60,4 @@ jobs:
       run: |
         const contentRead = "${{ steps.read_file.outputs.contents }}";
         console.log("Read Content:", contentRead);
+      shell: bash
