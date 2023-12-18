@@ -46,7 +46,7 @@ jobs:
         script: |
           const processedContent = "${{ steps.process-file.outputs.processed_content }}";
           console.log("Processed Content:", processedContent);
-          const readContent = "${{ steps.read_file.outputs.contents }}";
+          const readContent = `${{ steps.read_file.outputs.contents }}`;
           console.log("Read content:", readContent);
           github.rest.issues.createComment({
             issue_number: context.issue.number,
