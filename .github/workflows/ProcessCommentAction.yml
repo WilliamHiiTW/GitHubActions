@@ -58,6 +58,4 @@ jobs:
 
     - name: File contents
       run: |
-        const contentRead = "${{ steps.read_file.outputs.contents }}";
-        console.log("Read Content:", contentRead);
-      shell: bash
+        echo "${ steps.read_file.outputs.contents }"
