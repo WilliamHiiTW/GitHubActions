@@ -21,11 +21,7 @@ jobs:
       with:
         path: "Message.txt"
 
-    - name: File contents
-      run: |
-        echo "${{ steps.read_file.outputs.contents }}"
-
-    - name: Read and Process File
+    - name: Process File
       run: |
         file_path="Message.txt"
         # Check if the file has been modified
