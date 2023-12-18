@@ -44,11 +44,6 @@ jobs:
             repo: context.repo.repo,
             body: formattedContent
           })
-    
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
 
     - name: Read file contents
       id: read_file
@@ -59,3 +54,17 @@ jobs:
     - name: File contents
       run: |
         echo "${{ steps.read_file.outputs.contents }}"
+
+    - name: Comment on PR2
+      if: steps.read_file.outputs.contents != ''
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const contentRead = "${{ steps.read_file.outputs.contents }}";
+          console.log("Read Content:", contentRead);
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: contentRead
+          })
