@@ -44,3 +44,12 @@ jobs:
             repo: context.repo.repo,
             body: formattedContent
           })
+
+    - name: Read file contents
+      id: read_file
+      uses: andstor/file-reader-action@v1
+      with:
+        path: "Message.txt"
+
+    - name: File contents
+      run: echo "${ steps.read_file.outputs.contents }"
