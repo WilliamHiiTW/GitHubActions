@@ -34,9 +34,10 @@ jobs:
       with:
         script: |
           const processedContent = "${{ steps.process-file.outputs.processed_content }}";
+          const formattedContent = processedContent.replace(/(\r\n|\r|\n)/g, '%0A');
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: processedContent
+            body: formattedContent
           })
