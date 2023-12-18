@@ -37,7 +37,7 @@ jobs:
       id: process-file
 
     - name: Comment on PR
-      if: steps.process-file.outputs.boolVariable == true
+      if: steps.process-file.outputs.boolVariable
       uses: actions/github-script@v7
       with:
         script: |
