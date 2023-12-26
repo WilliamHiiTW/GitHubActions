@@ -27,10 +27,12 @@ jobs:
     - name: Process File
       run: |
         file_path="example.xml"
-        # Check if the file has been modified
-        if git diff --name-only -r HEAD^1 HEAD | grep -q "^example.xml$"; then
+        # Check if the file exists
+        if [ -e "$file_path" ]; then
+          echo "File $file_path exists"
           echo "::set-output name=boolVariable::true"
         else
+          echo "File $file_path does not exist"
           echo "::set-output name=boolVariable::false"
         fi
       id: process-file
