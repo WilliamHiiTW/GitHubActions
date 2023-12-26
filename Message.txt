@@ -2,3 +2,4 @@ Testing if action file work
 testing
 testing
 test
+test
