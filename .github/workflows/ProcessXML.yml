@@ -16,17 +16,17 @@ jobs:
         fetch-depth: 2
 
     - name: Create XML File
-      run: echo '<root><data>Some content</data></root>' > example.xml
+      run: echo '<root><data>Unity test coverage stats</data></root>' > TestCoverage.xml
 
     - name: Read file contents
       id: read_file
       uses: andstor/file-reader-action@v1
       with:
-        path: "example.xml"
+        path: "TestCoverage.xml"
 
     - name: Process File
       run: |
-        file_path="example.xml"
+        file_path="TestCoverage.xml"
         # Check if the file exists
         if [ -e "$file_path" ]; then
           echo "File $file_path exists"
