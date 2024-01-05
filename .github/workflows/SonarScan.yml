@@ -26,8 +26,7 @@ jobs:
 
       - name: Download File
         run: |
-          wget -P downloaded_files/ https://raw.githubusercontent.com/kure-developers/docker-sonarqube/main/Docker%20Compose/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2MRHCLNZXGWLIE4YMZMXWY4Q
-
+          wget -P downloaded_files/ https://raw.githubusercontent.com/kure-developers/docker-sonarqube/main/Docker%20Compose/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2QCK4EHKRYNAXM3OAZMX24BA
       - name: Download and extract SonarScanner for MSBuild
         run: |
           DOWNLOAD_URL="https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/5.15.0.80890/sonar-scanner-msbuild-5.15.0.80890-net46.zip"
@@ -53,22 +52,10 @@ jobs:
           docker pull sonarqube:lts
           docker pull postgres
           # Run Docker Compose
-          docker-compose -f downloaded_files/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2MRHCLNZXGWLIE4YMZMXWY4Q up -d
+          docker-compose -f downloaded_files/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2QCK4EHKRYNAXM3OAZMX24BA up -d
           compose_ps_output=$(docker ps)
           echo "$compose_ps_output"
           
-      - name: Test SonarQube Server API
-        continue-on-error: true
-        run: |
-          SONARQUBE_URL='http://localhost:9000'
-          API_ENDPOINT='/api/server/version'
-          
-          FULL_URL="${SONARQUBE_URL}${API_ENDPOINT}"
-          
-          echo "Testing SonarQube server API: ${FULL_URL}"
-          
-          # Use curl to make a GET request to the SonarQube server API
-          curl -v "${FULL_URL}"
 
 
       - name: Build and scan project
