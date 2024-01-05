@@ -46,10 +46,10 @@ jobs:
         run: |
           # Ensure Docker Compose is installed
           brew install docker
-          colima start
-          brew install docker-compose
-          docker pull postgres
-          docker pull sonarqube:lts
+          #colima start
+          #brew install docker-compose
+          #docker pull postgres
+          #docker pull sonarqube:lts
           # Run Docker Compose
-          docker-compose up -d
+          docker-compose -f downloaded_files/docker-compose.yml up -d
           
