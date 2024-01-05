@@ -1,0 +1,55 @@
+name: sonarqube-check
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  sonarqube-check:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+          
+      - name: Generate solution files for Unity
+        continue-on-error: true
+        env:
+          unity-editor: '/Applications/Unity/Hub/Editor/2021.3.27f1/Unity.app/Contents/MacOS/Unity'
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+        run: |
+          unity-editor -username $UNITY_EMAIL -password $UNITY_PASSWORD -serial $UNITY_SERIAL -nographics -logFile /dev/stdout -projectPath . -executeMethod UnityEditor.SyncVS.SyncSolution -quit
+
+      - name: Create folder
+        run: |
+          mkdir downloaded_files
+
+      - name: Download File
+        run: |
+          wget -P downloaded_files/ https://https://raw.githubusercontent.com/kure-developers/docker-sonarqube/main/Docker%20Compose/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2PZJFSMYIPP2MOBSEZMXRJZA
+
+      - name: Download and extract SonarScanner for MSBuild
+        run: |
+          DOWNLOAD_URL="https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/5.15.0.80890/sonar-scanner-msbuild-5.15.0.80890-net46.zip"
+          DOWNLOAD_PATH="/tmp/sonar-scanner-msbuild.zip"
+          EXTRACT_PATH="/tmp/sonar-scanner-msbuild"
+          # Download the file
+          curl -L -o "$DOWNLOAD_PATH" "$DOWNLOAD_URL"
+          # Extract the contents
+          unzip -q "$DOWNLOAD_PATH" -d "$EXTRACT_PATH"
+          # Set an environment variable with the path
+          echo "SONAR_SCANNER_MSBUILD_PATH=$EXTRACT_PATH" >> $GITHUB_ENV
+      - name: Set execute permissions
+        run: |
+          chmod +x "$SONAR_SCANNER_MSBUILD_PATH/SonarScanner.MSBuild.exe"
+      - name: Start Docker   
+        run: |
+          # Ensure Docker Compose is installed
+          brew install docker
+          colima start
+          brew install docker-compose
+          docker pull postgres
+          docker pull sonarqube:lts
+          # Run Docker Compose
+          docker-compose up -d
+          
