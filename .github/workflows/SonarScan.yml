@@ -26,7 +26,7 @@ jobs:
 
       - name: Download File
         run: |
-          wget -P downloaded_files/ https://raw.githubusercontent.com/kure-developers/docker-sonarqube/main/Docker%20Compose/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2PZJFSMYIPP2MOBSEZMXRJZA
+          wget -P downloaded_files/ https://raw.githubusercontent.com/kure-developers/docker-sonarqube/main/Docker%20Compose/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2MRHCLNZXGWLIE4YMZMXWY4Q
 
       - name: Download and extract SonarScanner for MSBuild
         run: |
@@ -50,7 +50,7 @@ jobs:
           #colima start
           colima start
           # Run Docker Compose
-          docker-compose -f downloaded_files/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2PZJFSMYIPP2MOBSEZMXRJZA up -d
+          docker-compose -f downloaded_files/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2MRHCLNZXGWLIE4YMZMXWY4Q up -d
           compose_ps_output=$(docker ps)
           echo "$compose_ps_output"
           
