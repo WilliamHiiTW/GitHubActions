@@ -55,8 +55,17 @@ jobs:
           docker-compose -f downloaded_files/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2QCK4EHKRYNAXM3OAZMX24BA up -d
           compose_ps_output=$(docker ps)
           echo "$compose_ps_output"
+          sleep 30
           
-
+      - name: Build and Analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          docker run -e SONAR_TOKEN=$SONAR_TOKEN \
+                     -e SONAR_HOST_URL=$SONAR_HOST_URL \
+                     -v $PWD:/usr/src \
+                     sonarsource/sonar-scanner-cli
 
       - name: Build and scan project
         env:
