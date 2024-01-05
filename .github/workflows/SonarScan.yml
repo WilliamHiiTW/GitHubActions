@@ -76,7 +76,7 @@ jobs:
           #FrameworkPathOverride: '/opt/unity/Editor/Data/MonoBleedingEdge/bin'
           #SONARSCANNER_MSBUILD_PATH: '/Users/kurechan/Downloads/sonar-scanner-msbuild-5.15.0.80890-net46/SonarScanner.MSBuild.exe'
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: "http://localhost:9000"
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           dotnet tool install dotnet-sonarscanner --tool-path .
           mono "$SONAR_SCANNER_MSBUILD_PATH/SonarScanner.MSBuild.exe" \
