@@ -9,6 +9,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+
+      - name: Allow GitHub Actions IPs temporarily
+        run: |
+          GH_IPS=$(curl -s https://api.github.com/meta | jq -r '.actions[]')
+          for IP in $GH_IPS; do
+            sudo iptables -A INPUT -p tcp --dport 9000 -s $IP -j ACCEPT
+          done
+          sudo service iptables save
+          sudo service iptables restart
           
       - name: Generate solution files for Unity
         continue-on-error: true
