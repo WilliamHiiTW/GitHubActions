@@ -65,7 +65,7 @@ jobs:
           docker run -e SONAR_TOKEN=$SONAR_TOKEN \
                      -e SONAR_HOST_URL=$SONAR_HOST_URL \
                      -v $PWD:/usr/src \
-                     sonarsource/sonar-scanner-cli
+                     sonarsource/sonar-scanner-cli -X
 
       - name: Build and scan project
         env:
