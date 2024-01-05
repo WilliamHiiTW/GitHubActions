@@ -14,7 +14,15 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 2
+        
+    - name: Create folder
+      run: |
+        mkdir downloaded_files
 
+    - name: Download File
+      run: |
+        wget -P downloaded_files/ https://raw.githubusercontent.com/WilliamHiiTW/GitHubActions/main/.github/workflows/ProcessXML.yml
+        
     - name: Create XML File
       run: echo '<root><data>Unity test coverage stats</data></root>' > TestCoverage.xml
 
