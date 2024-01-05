@@ -49,9 +49,9 @@ jobs:
           brew install docker
           brew install docker-compose
           #colima start
+          colima start
           docker pull sonarqube:lts
           docker pull postgres
-          colima start
           # Run Docker Compose
           docker-compose -f downloaded_files/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2MRHCLNZXGWLIE4YMZMXWY4Q up -d
           compose_ps_output=$(docker ps)
