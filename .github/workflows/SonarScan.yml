@@ -42,15 +42,54 @@ jobs:
       - name: Set execute permissions
         run: |
           chmod +x "$SONAR_SCANNER_MSBUILD_PATH/SonarScanner.MSBuild.exe"
+          
       - name: Start Docker   
         run: |
           # Ensure Docker Compose is installed
           brew install docker
           brew install docker-compose
           #colima start
+          docker pull sonarqube:lts
+          docker pull postgres
           colima start
           # Run Docker Compose
           docker-compose -f downloaded_files/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2MRHCLNZXGWLIE4YMZMXWY4Q up -d
           compose_ps_output=$(docker ps)
           echo "$compose_ps_output"
           
+      - name: Test SonarQube Server API
+        continue-on-error: true
+        run: |
+          SONARQUBE_URL='http://localhost:9002'
+          API_ENDPOINT='/api/server/version'
+          
+          FULL_URL="${SONARQUBE_URL}${API_ENDPOINT}"
+          
+          echo "Testing SonarQube server API: ${FULL_URL}"
+          
+          # Use curl to make a GET request to the SonarQube server API
+          curl -v "${FULL_URL}"
+
+
+      - name: Build and scan project
+        env:
+          #FrameworkPathOverride: '/opt/unity/Editor/Data/MonoBleedingEdge/bin'
+          #SONARSCANNER_MSBUILD_PATH: '/Users/kurechan/Downloads/sonar-scanner-msbuild-5.15.0.80890-net46/SonarScanner.MSBuild.exe'
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: "http://localhost:9002"
+        run: |
+          dotnet tool install dotnet-sonarscanner --tool-path .
+          mono "$SONAR_SCANNER_MSBUILD_PATH/SonarScanner.MSBuild.exe" \
+            /k:"SonarScan" \
+            /d:sonar.login="$SONAR_TOKEN" \
+            /d:sonar.host.url="$SONAR_HOST_URL" \
+            /d:sonar.cs.opencover.reportsPaths="**/TestCoverageResults_*.xml"
+
+          #cd ..
+          #unity-editor -nographics -logFile /dev/stdout -projectPath ./unity-game-card -testPlatform editmode -runTests -debugCodeOptimization -enableCodeCoverage -coverageOptions "assemblyFilters:-*unity*;generateAdditionalReports"
+          #cd unity-game-card
+          #msbuild unity-game-card.sln /t:Rebuild
+          msbuild
+          mono "$SONAR_SCANNER_MSBUILD_PATH/SonarScanner.MSBuild.exe" end /d:sonar.login="$SONAR_TOKEN"
+
+        
