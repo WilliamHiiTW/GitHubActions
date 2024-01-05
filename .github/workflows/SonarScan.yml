@@ -26,7 +26,7 @@ jobs:
 
       - name: Download File
         run: |
-          wget -P downloaded_files/ https://https://raw.githubusercontent.com/kure-developers/docker-sonarqube/main/Docker%20Compose/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2PZJFSMYIPP2MOBSEZMXRJZA
+          wget -P downloaded_files/ https://raw.githubusercontent.com/kure-developers/docker-sonarqube/main/Docker%20Compose/docker-compose.yml?token=GHSAT0AAAAAACLF5RX2PZJFSMYIPP2MOBSEZMXRJZA
 
       - name: Download and extract SonarScanner for MSBuild
         run: |
