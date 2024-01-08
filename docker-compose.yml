@@ -13,7 +13,7 @@ services:
     volumes:
       - sonarqube_data:/opt/sonarqube/data
     ports:
-      - "9000:9000"
+      - "9002:9000"
   postgresql_db:
     image: postgres:latest
     hostname: postgresql
